@@ -10,8 +10,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 
-	"github.com/patrickdmatos/RPGuys/backend/database"
-	"github.com/patrickdmatos/RPGuys/backend/handlers"
+	"github.com/patrickdmatos/user-go-bakcend/database"
+	"github.com/patrickdmatos/user-go-bakcend/handlers"
 )
 
 func main() {
