@@ -11,7 +11,6 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/patrickdmatos/user-go-bakcend/database"
-	"github.com/patrickdmatos/user-go-bakcend/handlers"
 )
 
 func main() {
@@ -21,7 +20,13 @@ func main() {
 	}
 
 	// Conexão com o banco (com tratamento de erro)
-	db := database.Connect() // Remove o 'err' pois Connect() não retorna erro
+	db := database.Connect(
+	os.Getenv("DB_HOST"),
+	os.Getenv("DB_PORT"),
+	os.Getenv("DB_USER"),
+	os.Getenv("DB_PASSWORD"),
+	os.Getenv("DB_NAME"),
+)
     defer db.Close()
 
 	// Configuração do router
@@ -30,11 +35,6 @@ func main() {
 	// Middlewares
 	r.Use(loggingMiddleware)
 	r.Use(mux.CORSMethodMiddleware(r)) // CORS básico
-
-	// Rotas
-	r.HandleFunc("/users", handlers.CreateUser(db)).Methods("POST")
-	r.HandleFunc("/login", handlers.LoginSession(db)).Methods("POST")
-	r.HandleFunc("/users", handlers.GetUsers(db)).Methods("GET")
 
 	// Configuração do servidor
 	port := os.Getenv("PORT")
